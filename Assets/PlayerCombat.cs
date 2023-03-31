@@ -7,6 +7,8 @@ public class PlayerCombat : MonoBehaviour
     [Header("References")]
     public Animator anim;
 
+    [Header("Bools")]
+    bool canAttack;
 
     [Header("Attack Counter")]
     int attackCount = 0;
@@ -17,6 +19,7 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        canAttack = true;
     }
 
     // Update is called once per frame
@@ -29,33 +32,35 @@ public class PlayerCombat : MonoBehaviour
         print("punch");
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (attackCount == 0)
+            if (attackCount == 0 && canAttack)
             {
                 anim.Play("Punch 1");
-                yield return new WaitForSeconds(.5f);
-         
-               
+                yield return new WaitForSeconds(2f);
+                canAttack = true;
+
             }
-            else if (attackCount == 1)
+            else if (attackCount == 1 && canAttack)
             {
                 anim.Play("Roundhouse");
-                yield return new WaitForSeconds(.5f);
-             
-              
+                yield return new WaitForSeconds(2f);
+                canAttack = true;
+
             }
-            else if (attackCount == 2)
+            else if (attackCount == 2 && canAttack)
             {
                 anim.Play("Elbow");
-                yield return new WaitForSeconds(1);
+                canAttack = false;
+                yield return new WaitForSeconds(2f);
+                canAttack = true;
 
                
             }
-            if (attackCount == 3)
+            else if (attackCount == 3 && canAttack)
             {
                 anim.Play("SideKick");
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(2f);
+                canAttack = true;
 
-                
             }
             
             if(attackCount > attackLimit)
